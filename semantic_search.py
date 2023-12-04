@@ -1,4 +1,22 @@
 import math
+import torch
+from sentence_transformers import SentenceTransformer
+import numpy as np
+import pickle
+import os
+import pandas as pd
+from embeddings import load_embeddings_and_models   
+
+
+MAIN_PATH = ".\Search_engine"
+DATA_PATH = ".\Search_engine\data"
+
+with open(os.path.join(DATA_PATH, 'posts.pkl'), 'rb') as f:
+    posts = pickle.load(f)
+
+
+question_query_model, answer_query_model, embeddings_titles, embeddings_answer = load_embeddings_and_models()
+
 
 def encode_query(query : str, model) -> torch.Tensor:
     return model.encode([query], normalize_embeddings=True, convert_to_tensor=True)
@@ -15,7 +33,7 @@ def similarity(query: str, model: SentenceTransformer, embeddings: torch.Tensor,
 
     return np.array(scores)
 
-def similarity_order(matrix_similarity) -> List[int]:
+def similarity_order(matrix_similarity):
     return list(np.argsort(-np.array(matrix_similarity)))
 
 def closest_semantic_doc(query: str, model: SentenceTransformer, embeddings: torch.Tensor, top_n: int = 10) -> pd.DataFrame:

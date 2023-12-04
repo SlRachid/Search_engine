@@ -4,6 +4,14 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import re
 import os
+from typing import Tuple, Dict, List
+
+
+DATAPATH = "."
+QUESTION_QUERY_MODEL_NAME = "all-MiniLM-L6-v2"
+ANSWER_QUERY_MODEL_NAME = "multi-qa-mpnet-base-cos-v1"
+
+
 os.environ['CURL_CA_BUNDLE'] = ''
 
 def remove_tags(text:str)->str:
@@ -16,7 +24,6 @@ def save_embeddings(model_name: str, savepath: str):
     device = torch.device("cuda") if torch.cuda.is_available() else torch.deivce("cpu")
     model = SentenceTransformer(f'sentence-transformers/{model_name}', device='cuda')
 
-    DATA_PATH = ''
     posts = pd.read_xml(os.path.join('Posts.xml'), parser="etree", encoding="utf8")
     clean_posts = posts[['Id', 'Body', 'Title']]
     clean_posts['Clean Body'] = clean_posts['Body'].fillna('').apply(remove_tags)
@@ -57,4 +64,3 @@ def load_embeddings_and_models() -> Tuple[SentenceTransformer, SentenceTransform
 
     return question_query_model, answer_query_model, embeddings_titles, embeddings_answer
 
-question_query_model, answer_query_model, embeddings_titles, embeddings_answer = load_embeddings_and_models()

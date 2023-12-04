@@ -1,6 +1,12 @@
+import numpy as np
 import torch
+from Extract_Clean import clean_post
 
-def vectorize_query(query: str, vocabulaire: np.ndarray) -> List[int]:
+
+
+
+
+def vectorize_query(query: str, vocabulaire: np.ndarray):
     query = clean_post(query)
     L = query.split()
 
@@ -11,7 +17,7 @@ def vectorize_query(query: str, vocabulaire: np.ndarray) -> List[int]:
             vector_L[index]+=1
     return vector_L
 
-def vectorizer_search(query: str, vocabulaire: np.ndarray, docs_matrix: np.ndarray) -> List[int]:
+def vectorizer_search(query: str, vocabulaire: np.ndarray, docs_matrix: np.ndarray):
     Vector_query=vectorize_query(query, vocabulaire)
     Vector_query=torch.Tensor(Vector_query).to("cuda")
     L = []

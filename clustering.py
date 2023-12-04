@@ -1,12 +1,25 @@
 from collections import defaultdict
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
+import os
+
+MAINPATH = ".\Search_engine"
+DATAPATH = ".\Search_engine\data"
+
 
 with open(DATAPATH + '/lda_model.pkl', 'rb') as f:
     lda_model = pickle.load(f)
 
 with open(DATAPATH + '/vectorizer_lda.pkl', 'rb') as f:
     vectorizer_lda = pickle.load(f)
+
+
+MAIN_PATH = ".\Search_engine"
+DATA_PATH = ".\Search_engine\data"
+
+with open(os.path.join(DATA_PATH, 'posts.pkl'), 'rb') as f:
+    posts = pickle.load(f)
+
 
 # Get the most probable topic for each document
 train_data = vectorizer_lda.transform(posts.cleaned_body.values)

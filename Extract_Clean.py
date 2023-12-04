@@ -5,8 +5,8 @@ import re
 import pickle
 
 
-MAIN_PATH = ".\Search_engine"
-DATA_PATH = ".\Search_engine\data"
+MAIN_PATH = "."
+DATA_PATH = ".\data"
 
 
 def clean_post(text:str)->str:
@@ -26,13 +26,13 @@ def extract_data(datapath: str) -> pd.DataFrame:
 
 
 
-#posts = extract_data(DATA_PATH)
+posts = extract_data(DATA_PATH)
 
-#with open(os.path.join(DATA_PATH, 'posts.pkl'), 'wb') as f:
-#    pickle.dump(posts, f)
+with open(os.path.join(DATA_PATH, 'posts.pkl'), 'wb') as f:
+    pickle.dump(posts, f)
 
-with open(os.path.join(DATA_PATH, 'posts.pkl'), 'rb') as f:
-    posts = pickle.load(f)
+#with open(os.path.join(DATA_PATH, 'posts.pkl'), 'rb') as f:
+#    posts = pickle.load(f)
 
 votes = pd.read_xml(os.path.join(DATA_PATH, 'Votes.xml'), parser="etree", encoding="utf8")
 users = pd.read_xml(os.path.join(DATA_PATH, 'Users.xml'), parser="etree", encoding="utf8")
