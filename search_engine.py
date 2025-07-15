@@ -1,7 +1,12 @@
+
+
 import torch
+if torch.cuda.is_available():
+    torch.cuda.init()  # manually initializes the CUDA context
+    torch.rand(1).to("cuda")
 from Extract_Clean import clean_post
 import numpy as np
-import math
+from clustering import get_topic_query, get_document_topics
 from embeddings import load_embeddings_and_models
 import os
 import pickle
@@ -23,7 +28,7 @@ with open(DATA_PATH + '/vectorizer_lda.pkl', 'rb') as f:
 
 question_query_model, answer_query_model, embeddings_titles, embeddings_answer = load_embeddings_and_models()
 
-
+topic_documents = get_document_topics()
 
 coeff1 = 0.3
 coeff2 = 0.2
@@ -93,10 +98,10 @@ def similarities_title_clustering(query, model, relevant_posts, embeddings = emb
     return np.array(scores)
 
 def search_engine_clustering(query, vectorizer=vectorizer_lda, lda_model=lda_model, top_n=None) :
-    #topic_query = get_topic_query(query, vectorizer, lda_model)
-    #relevant_docs = topic_documents[topic_query]
+    topic_query = get_topic_query(query, vectorizer, lda_model)
+    relevant_docs = topic_documents[topic_query]
 
-    relevant_posts = posts#[posts['Id'].isin(relevant_docs)]
+    relevant_posts = posts[posts['Id'].isin(relevant_docs)]
     # Vocabulaire, matrix_docs=filter_vectorize(relevant_posts['cleaned_body'])
 
     similarity_semantic_answer = similarity_clustering(query, answer_query_model, relevant_posts, embeddings=embeddings_answer, batch_size=1024)
@@ -127,6 +132,9 @@ def search_engine_clustering(query, vectorizer=vectorizer_lda, lda_model=lda_mod
 
 
 if __name__ == "__main__":
+    import time
     query = "how to learn AI"
+    times = time.time()
     result = search_engine_clustering(query, top_n= 20 )
     print(result["Title"])
+    print(f'time taken : {time.time() - times} s')
