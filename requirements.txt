@@ -1,0 +1,8 @@
+beautifulsoup4==4.13.4
+nltk==3.9.1
+numpy==2.3.1
+pandas==2.3.1
+py7zr==1.0.0
+scikit_learn==1.7.0
+sentence_transformers==5.0.0
+torch==2.7.1

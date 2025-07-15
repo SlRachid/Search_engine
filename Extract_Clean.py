@@ -6,7 +6,7 @@ import pickle
 
 
 MAIN_PATH = "."
-DATA_PATH = ".\data"
+DATA_PATH = "data"
 
 
 def clean_post(text:str)->str:
@@ -25,24 +25,20 @@ def extract_data(datapath: str) -> pd.DataFrame:
     return posts
 
 
+if __name__ == '__main__':
+    posts = extract_data(DATA_PATH)
 
-posts = extract_data(DATA_PATH)
+    with open(os.path.join(DATA_PATH, 'posts.pkl'), 'wb') as f:
+        pickle.dump(posts, f)
 
-with open(os.path.join(DATA_PATH, 'posts.pkl'), 'wb') as f:
-    pickle.dump(posts, f)
+    #with open(os.path.join(DATA_PATH, 'posts.pkl'), 'rb') as f:
+    #    posts = pickle.load(f)
 
-#with open(os.path.join(DATA_PATH, 'posts.pkl'), 'rb') as f:
-#    posts = pickle.load(f)
+    votes = pd.read_xml(os.path.join(DATA_PATH, 'Votes.xml'), parser="etree", encoding="utf8")
+    users = pd.read_xml(os.path.join(DATA_PATH, 'Users.xml'), parser="etree", encoding="utf8")
 
-votes = pd.read_xml(os.path.join(DATA_PATH, 'Votes.xml'), parser="etree", encoding="utf8")
-users = pd.read_xml(os.path.join(DATA_PATH, 'Users.xml'), parser="etree", encoding="utf8")
+    # Now we merge both of them to identify the votes based score for each post, it will be important later on
+    votes_posts = pd.merge(votes, posts, left_on='PostId', right_on='Id', how='left')
 
-# Now we merge both of them to identify the votes based score for each post, it will be important later on
-votes_posts = pd.merge(votes, posts, left_on='PostId', right_on='Id', how='left')
-
-print(posts)
-print(votes_posts["Score"])
-
-
-
-
+    print(posts)
+    print(votes_posts["Score"])

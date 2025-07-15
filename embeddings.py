@@ -1,18 +1,18 @@
 from sentence_transformers import SentenceTransformer
 import torch
 import pandas as pd
-from bs4 import BeautifulSoup
-import re
 import os
-from typing import Tuple, Dict, List
+# from bs4 import BeautifulSoup
+# import re
+from typing import Tuple, Dict
 
 
-DATAPATH = "."
+DATAPATH = "./data"
 QUESTION_QUERY_MODEL_NAME = "all-MiniLM-L6-v2"
 ANSWER_QUERY_MODEL_NAME = "multi-qa-mpnet-base-cos-v1"
 
 
-os.environ['CURL_CA_BUNDLE'] = ''
+# os.environ['CURL_CA_BUNDLE'] = ''
 
 def remove_tags(text:str)->str:
     text = text.replace('"', '')
@@ -21,7 +21,7 @@ def remove_tags(text:str)->str:
     return text
 
 def save_embeddings(model_name: str, savepath: str):
-    device = torch.device("cuda") if torch.cuda.is_available() else torch.deivce("cpu")
+    # device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     model = SentenceTransformer(f'sentence-transformers/{model_name}', device='cuda')
 
     posts = pd.read_xml(os.path.join('Posts.xml'), parser="etree", encoding="utf8")
@@ -64,3 +64,6 @@ def load_embeddings_and_models() -> Tuple[SentenceTransformer, SentenceTransform
 
     return question_query_model, answer_query_model, embeddings_titles, embeddings_answer
 
+
+if __name__ == '__main__':
+    save_embeddings()

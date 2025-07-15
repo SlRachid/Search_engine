@@ -1,16 +1,16 @@
 import torch
 from Extract_Clean import clean_post
-import numpy as np 
+import numpy as np
 import math
-from embeddings import load_embeddings_and_models   
+from embeddings import load_embeddings_and_models
 import os
 import pickle
 from semantic_search import encode_query, order_similarity
 
 
 
-MAIN_PATH = ".\Search_engine"
-DATA_PATH = ".\Search_engine\data"
+MAIN_PATH = "."
+DATA_PATH = "./data"
 
 with open(os.path.join(DATA_PATH, 'posts.pkl'), 'rb') as f:
     posts = pickle.load(f)
@@ -59,6 +59,8 @@ def similarity_clustering(query, model, relevant_posts, embeddings=embeddings_an
     query_embedding = encode_query(query, model)
     relevant_id = list(relevant_posts["Id"])
     filtered_embeddings = {post_id : embeddings[post_id] for post_id in relevant_id}
+    if len(filtered_embeddings) == 0:
+        raise ValueError("No embeddings found for relevant posts")
     # query_embedding = torch.stack([query_embedding])
     scores = []
     for i in range(0, len(filtered_embeddings), batch_size):

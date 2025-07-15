@@ -5,11 +5,11 @@ import numpy as np
 import pickle
 import os
 import pandas as pd
-from embeddings import load_embeddings_and_models   
+from embeddings import load_embeddings_and_models
 
 
-MAIN_PATH = ".\Search_engine"
-DATA_PATH = ".\Search_engine\data"
+MAIN_PATH = "."
+DATA_PATH = "./data"
 
 with open(os.path.join(DATA_PATH, 'posts.pkl'), 'rb') as f:
     posts = pickle.load(f)
@@ -63,5 +63,3 @@ def similarities_title(query: str, model: SentenceTransformer, embeddings: torch
 
 def order_similarity(matrix_similarity):
     return list(np.argsort(-np.array(matrix_similarity)))
-
-
