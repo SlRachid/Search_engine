@@ -6,6 +6,36 @@ MAINPATH = "."
 DATAPATH = "./data"
 
 
+
+# def train_lda_model():
+#     from sklearn.feature_extraction.text import TfidfVectorizer
+
+#     vectorizer_lda = TfidfVectorizer()
+
+#     train_data = vectorizer_lda.fit_transform(posts.cleaned_body.values)
+
+#     feature_names = list(vectorizer_lda.get_feature_names_out())
+
+
+
+#     print(train_data[0])
+
+
+#     print(feature_names[-1000:])
+#     # Fit the LDA model to the TF-IDF matrix
+#     lda_model.fit(train_data)
+
+#     # Get the most probable topic for each document
+#     topic_assignments = lda_model.transform(train_data)
+#     most_probable_topics = topic_assignments.argmax(axis=1)
+
+#     print(most_probable_topics)
+
+
+
+#     print(most_probable_topics)
+
+
 with open(DATAPATH + '/lda_model.pkl', 'rb') as f:
     lda_model = pickle.load(f)
 
