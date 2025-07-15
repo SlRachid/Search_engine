@@ -6,3 +6,6 @@ py7zr==1.0.0
 scikit_learn==1.7.0
 sentence_transformers==5.0.0
 torch==2.7.1
+fastapi==0.104.1
+uvicorn==0.24.0
+pydantic==2.5.0
