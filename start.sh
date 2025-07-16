@@ -53,7 +53,7 @@ cd ..
 
 # Start backend in background
 echo "🔧 Starting backend API..."
-python fastapi_example.py &
+python backend/run_server.py &
 BACKEND_PID=$!
 
 # Wait for backend to start

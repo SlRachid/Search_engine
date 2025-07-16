@@ -42,7 +42,7 @@ cd ..
 
 REM Start backend in background
 echo 🔧 Starting backend API...
-start "Backend API" python fastapi_example.py
+start "Backend API" python backend/run_server.py
 
 REM Wait for backend to start
 echo ⏳ Waiting for backend to start...

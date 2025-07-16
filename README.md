@@ -39,7 +39,7 @@ cd ..
 
 3. **Start the backend:**
 ```bash
-python fastapi_example.py
+python backend/run_server.py
 ```
 
 4. **Start the frontend (in a new terminal):**
@@ -56,7 +56,14 @@ npm start
 
 ### Backend (Python)
 ```
-src/
+backend/                        # API and web server
+├── app/main.py                # FastAPI application
+├── api/search_engine.py       # Search engine API interface
+├── models/schemas.py          # Pydantic request/response models
+├── utils/                     # Backend utilities
+└── run_server.py              # Server startup script
+
+src/                           # Core search engine logic
 ├── core/search_engine.py      # Main SearchEngine class
 ├── data/text_processor.py     # Text cleaning & preprocessing
 ├── models/
@@ -123,7 +130,8 @@ frontend/
 ### Backend Development
 ```bash
 # Run with auto-reload
-uvicorn fastapi_example:app --reload --host 0.0.0.0 --port 8000
+uvicorn backend.app.main:app --reload --host 0.0.0.0 --port 8000
+```
 
 # Run tests
 python -m pytest
