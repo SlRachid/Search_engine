@@ -3,3 +3,6 @@ __pycache__
 .venv
 .ropeproject
 data/*
+# frontend
+node_modules
+package-lock.json

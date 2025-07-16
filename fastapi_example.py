@@ -102,16 +102,16 @@ async def search(request: SearchRequest):
     """Perform a search."""
     if request.search_type not in ["clustering", "semantic", "vector"]:
         raise HTTPException(
-            status_code=400, 
+            status_code=400,
             detail="search_type must be one of: clustering, semantic, vector"
         )
-    
+
     result = search_api.search(
         query=request.query,
         top_n=request.top_n,
         search_type=request.search_type
     )
-    
+
     return SearchResponse(**result)
 
 
@@ -124,16 +124,16 @@ async def search_get(
     """Perform a search using GET method."""
     if search_type not in ["clustering", "semantic", "vector"]:
         raise HTTPException(
-            status_code=400, 
+            status_code=400,
             detail="search_type must be one of: clustering, semantic, vector"
         )
-    
+
     result = search_api.search(
         query=query,
         top_n=top_n,
         search_type=search_type
     )
-    
+
     return SearchResponse(**result)
 
 
@@ -155,7 +155,7 @@ async def clustering_search(
         top_n=top_n,
         search_type="clustering"
     )
-    
+
     return SearchResponse(**result)
 
 
@@ -170,23 +170,23 @@ async def semantic_search(
         top_n=top_n,
         search_type="semantic"
     )
-    
+
     return SearchResponse(**result)
 
 
-@app.get("/search/vector", response_model=SearchResponse)
-async def vector_search(
-    query: str = Query(..., description="Search query"),
-    top_n: Optional[int] = Query(20, description="Maximum number of results")
-):
-    """Perform vector-based search."""
-    result = search_api.search(
-        query=query,
-        top_n=top_n,
-        search_type="vector"
-    )
-    
-    return SearchResponse(**result)
+# @app.get("/search/vector", response_model=SearchResponse)
+# async def vector_search(
+#     query: str = Query(..., description="Search query"),
+#     top_n: Optional[int] = Query(20, description="Maximum number of results")
+# ):
+#     """Perform vector-based search."""
+#     result = search_api.search(
+#         query=query,
+#         top_n=top_n,
+#         search_type="vector"
+#     )
+
+#     return SearchResponse(**result)
 
 
 if __name__ == "__main__":
@@ -196,4 +196,4 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=8000,
         reload=True
-    ) 
+    )
